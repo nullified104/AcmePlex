@@ -15,7 +15,7 @@ Before running the project, ensure you have the following installed:
 
 - **Java 11+** (for running Spring Boot)
 - **Node.js** (for running the Vue.js frontend)
-- **MySQL** (or a compatible database)
+- **MySQL** (for the database)
 
 ## Setup Instructions
 
