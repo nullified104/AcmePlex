@@ -7,7 +7,8 @@ import lombok.*;
 @Table(name = "movie")
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movies_seq")
+    @SequenceGenerator(name = "movies_seq", sequenceName = "movies_seq", allocationSize = 1)
     private Integer id;
     private String title;
     private String genre;
@@ -16,18 +17,10 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(String genre, String title, Integer duration) {
+    public Movie(String title, String genre, Integer duration) {
+        this.title = title;
         this.genre = genre;
-        this.title = title;
         this.duration = duration;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public Integer getId() {
@@ -36,6 +29,14 @@ public class Movie {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getGenre() {
