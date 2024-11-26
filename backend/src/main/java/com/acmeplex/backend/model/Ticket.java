@@ -13,7 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Entity
+@Table(name = "ticktes")
 public class Ticket {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private LocalDateTime purchaseDate;
     private boolean isCancelled;

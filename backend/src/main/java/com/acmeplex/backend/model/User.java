@@ -16,6 +16,8 @@ import java.util.Optional;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String username;
     private String password;

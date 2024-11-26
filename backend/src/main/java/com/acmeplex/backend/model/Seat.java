@@ -13,7 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Entity
+@Table(name = "seats")
 public class Seat {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private int rowNumber;
     private int seatNumber;

@@ -13,13 +13,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Entity
+@Table(name = "theaters")
 public class Theater {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private String address;
 
     @OneToMany(mappedBy = "Theater")
     private List<Showtime> showtimes;
-
-
 }

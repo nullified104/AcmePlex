@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Entity
-@Table(name = "registeredUsers")
 public class RegisteredUser {
     private LocalDateTime registrationDate;
     private boolean annualFeePaid;
