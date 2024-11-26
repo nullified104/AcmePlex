@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Entity
-@Table(name = "ticktes")
+@Table(name = "ticket")
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,7 +25,7 @@ public class Ticket {
     @ManyToOne
     private User user;
 
-    @OneToOne
+    @OneToOne(mappedBy = "ticket")
     private Seat seat;
 
     // more getters and setters, constructor

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
 class User {
     @Id
@@ -24,6 +24,9 @@ class User {
     private String email;
     private String address;
     private String creditCard;
+
+    @OneToMany(mappedBy = "user")
+    private List<Ticket> tickets = new ArrayList<>();
 
     public User() {}
 

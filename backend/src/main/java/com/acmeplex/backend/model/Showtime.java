@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Entity
-@Table(name = "showtimes")
+@Table(name = "showtime")
 public class Showtime {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
