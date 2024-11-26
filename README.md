@@ -23,56 +23,38 @@ Follow these steps to set up and run both the backend and frontend of the applic
 
 ### 1. Set Up MySQL Database
 
-Make sure MySQL is installed and running. You need to create a database and update the Spring Boot configuration with your MySQL credentials.
+Make sure MySQL is installed and running. You need to create a database and configure your backend to connect to it.
 
 1. Create a MySQL database:
     ```sql
     CREATE DATABASE acmeplex_db;
     ```
 
-2. Update your MySQL username and password in the backend configuration:
-    - Open `backend/src/main/resources/application.properties`
-    - Modify the following properties to match your MySQL credentials:
-    ```properties
-    spring.datasource.username=your_mysql_username   # Change to your MySQL username
-    spring.datasource.password=your_mysql_password   # Change to your MySQL password
-    ```
+2. Note the database name (`acmeplex_db`), your MySQL username, and your MySQL password. These will be used to configure the backend.
 
 ### 2. Backend Setup (Spring Boot)
 
 Navigate to the `backend` folder and follow these steps to set up and run the Spring Boot backend:
 
-1. **Build the backend** (using Maven):
+1. **Create a `.env` file**:
+    - In the `backend` root directory, create a file named `.env`.
+    - Add the following properties, replacing the placeholders with your MySQL credentials:
+      ```env
+      DATABASE_URL=jdbc:mysql://localhost:3306/acmeplex_db?useSSL=false
+      DB_USERNAME=your_mysql_username
+      DB_PASSWORD=your_mysql_password
+      ```
+
+2. **Ensure the `.env` file is loaded**:
+    - The application is configured to use the `.env` file, so no additional changes are required.
+
+3. **Build the backend** (using Maven):
     ```bash
     cd backend
     ./mvnw clean install
     ```
 
-2. **Run the Spring Boot application**:
+4. **Run the Spring Boot application**:
     ```bash
     ./mvnw spring-boot:run
-    ```
-
-    - This will start the backend server on `http://localhost:8080`.
-
-### 3. Frontend Setup (Vue.js)
-
-Navigate to the `frontend` folder and follow these steps to set up and run the Vue.js frontend:
-
-1. **Install dependencies**:
-    ```bash
-    cd frontend
-    npm install
-    ```
-
-2. **Run the Vue.js development server**:
-    ```bash
-    npm run serve
-    ```
-
-    - This will start the frontend server on `http://localhost:3000`.
-
-### 4. Access the Application
-
-- The Spring Boot backend API will be available at `http://localhost:8080`.
-- The Vue.js frontend will be available at `http://localhost:3000`.
+ 
