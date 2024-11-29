@@ -1,3 +1,5 @@
+package com.acmeplex.backend.model;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import lombok.*;
+
 
 @Entity
 @Table(name = "seat")

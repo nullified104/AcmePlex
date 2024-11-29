@@ -1,3 +1,5 @@
+package com.acmeplex.backend.model;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +25,7 @@ public class Showtime {
     @ManyToOne
     private Movie movie;
 
-    @ManyToOne;
+    @ManyToOne
     private Theater theater;
 
     @OneToMany(mappedBy = "showtime")
@@ -33,5 +35,39 @@ public class Showtime {
         this.time = time;
     }
 
-    // more getters and setters
+    public Integer getId() {
+        return id;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public Theater getTheater() {
+        return theater;
+    }
+
+    public List<Seat> getSeats() {
+        return seats;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public void setSeats(List<Seat> seats) {
+        this.seats = seats;
+    }
+
+    public void setTheater(Theater theater) {
+        this.theater = theater;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
 }

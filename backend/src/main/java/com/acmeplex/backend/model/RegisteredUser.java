@@ -1,3 +1,5 @@
+package com.acmeplex.backend.model;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -11,9 +13,11 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import lombok.*;
+
 
 @Entity
-public class RegisteredUser {
+public class RegisteredUser extends User {
     private LocalDateTime registrationDate;
     private boolean annualFeePaid;
 
@@ -21,8 +25,8 @@ public class RegisteredUser {
         super();
     }
 
-    public RegisteredUser(String username, String password, String email, String creditCard, LocalDateTime registrationDate, boolean annualFeePaid) {
-        super(username, password, email, creditCard)
+    public RegisteredUser(String username, String password, String email, String address, String creditCard, LocalDateTime registrationDate, boolean annualFeePaid) {
+        super(username, password, email, address, creditCard);
         this.registrationDate = registrationDate;
         this.annualFeePaid = annualFeePaid;
     }
