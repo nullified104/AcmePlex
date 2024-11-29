@@ -1,3 +1,5 @@
+package com.acmeplex.backend.model;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -9,13 +11,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 import java.util.Optional;
+import lombok.*;
 
 @Entity
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
-class User {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -30,8 +33,8 @@ class User {
 
     public User() {}
 
-    public User(String ussername, String password, String email, String address, String creditCard) {
-        this.ussername = username;
+    public User(String username, String password, String email, String address, String creditCard) {
+        this.username = username;
         this.password = password;
         this.email = email;
         this.address = address;
