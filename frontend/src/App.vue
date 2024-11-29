@@ -1,6 +1,7 @@
 <template>
   <div class="main-container">
     <NavigationBar/>
+    <HeroComponent/>
     <MovieList/>
   </div>
 </template>
@@ -8,11 +9,13 @@
 <script>
 import NavigationBar from './components/NavigationBar.vue';
 import MovieList from './components/MovieList.vue'
+import HeroComponent from './components/HeroComponent.vue'
 
 export default {
   name: 'App',
   components: {
     NavigationBar,
+    HeroComponent,
     MovieList,
   }
 }
