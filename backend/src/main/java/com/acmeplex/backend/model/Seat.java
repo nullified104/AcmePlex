@@ -20,7 +20,8 @@ import lombok.*;
 @Table(name = "seat")
 public class Seat {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seat_seq")
+    @SequenceGenerator(name = "seat_seq", sequenceName = "seat_seq", allocationSize = 1)
     private Integer id;
     private int rowNumber;
     private int seatNumber;
