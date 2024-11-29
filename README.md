@@ -57,4 +57,9 @@ Navigate to the `backend` folder and follow these steps to set up and run the Sp
 4. **Run the Spring Boot application**:
     ```bash
     ./mvnw spring-boot:run
+    ```
+
+### 3. Run the Frontend
+
+In a separate terminal window, navigate to the `frontend` folder and run `npm run serve`.
  
