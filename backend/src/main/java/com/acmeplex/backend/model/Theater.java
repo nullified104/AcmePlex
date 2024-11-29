@@ -19,7 +19,8 @@ import lombok.*;
 @Table(name = "theater")
 public class Theater {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "theater_seq")
+    @SequenceGenerator(name = "theater_seq", sequenceName = "theater_seq", allocationSize = 1)
     private Integer id;
     private String name;
     private String address;

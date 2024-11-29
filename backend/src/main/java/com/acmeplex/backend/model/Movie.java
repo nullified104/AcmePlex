@@ -7,8 +7,8 @@ import lombok.*;
 @Table(name = "movie")
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movies_seq")
-    @SequenceGenerator(name = "movies_seq", sequenceName = "movies_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_seq")
+    @SequenceGenerator(name = "movie_seq", sequenceName = "movie_seq", allocationSize = 1)
     private Integer id;
     private String title;
     private String genre;

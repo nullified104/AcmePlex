@@ -18,7 +18,8 @@ import java.util.Optional;
 @Table(name = "showtime")
 public class Showtime {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "showtime_seq")
+    @SequenceGenerator(name = "showtime_seq", sequenceName = "showtime_seq", allocationSize = 1)
     private Integer id;
     private LocalDateTime time;
 
