@@ -1,22 +1,19 @@
 <template>
   <div class="main-container">
     <NavigationBar/>
-    <HeroComponent/>
-    <MovieList/>
+    <MovieDetails/>
   </div>
 </template>
 
 <script>
 import NavigationBar from './components/NavigationBar.vue';
-import MovieList from './components/MovieList.vue'
-import HeroComponent from './components/HeroComponent.vue'
+import MovieDetails from './components/MovieDetails.vue';
 
 export default {
   name: 'App',
   components: {
     NavigationBar,
-    HeroComponent,
-    MovieList,
+    MovieDetails,
   }
 }
 </script>
