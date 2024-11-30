@@ -7,7 +7,6 @@
                 Simpler booking for unforgettable movie moments.
             </p>
         </div>
-        <button type="button" class="btn btn-light">Check Showtimes</button>
     </div>
 </template>
 
