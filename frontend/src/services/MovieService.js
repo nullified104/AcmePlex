@@ -1,11 +1,11 @@
-import axios from 'axios'
+import apiClient from '../api/api.js';
 
-const MOVIE_API_BASE_URL = 'http://localhost:8080/api/movies'
+export default {
+  getAllMovies() {
+    return apiClient.get('/movies'); // Fetch all movies
+  },
 
-class MovieService {
-    getMovies() {
-        return axios.get(MOVIE_API_BASE_URL);
-    }
-}
-
-export default new MovieService()
+  getMovieById(id) {
+    return apiClient.get(`/movies/${id}`); // Fetch details of a specific movie
+  },
+};
