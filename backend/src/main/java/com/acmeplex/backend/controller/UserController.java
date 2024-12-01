@@ -29,9 +29,18 @@ public class UserController {
         return user.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+        
+    @PostMapping()
+    public ResponseEntity<?> createUser(@RequestBody User newUser) {
+        if (userRepository.findByUsername(newUser.getUsername()).isPresent()) {
+            return ResponseEntity.status(400).body("Username already exists");
+        }
+        if (userRepository.findByEmail(newUser.getEmail()).isPresent()) {
+            return ResponseEntity.status(400).body("Email already exists");
+        }
+
+        User savedUser = userRepository.save(newUser);
+        return ResponseEntity.ok(savedUser);
     }
 
     @PutMapping("/{id}")
@@ -53,5 +62,14 @@ public class UserController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody User loginUser) {
+        Optional<User> user = userRepository.findByUsername(loginUser.getUsername());
+        if (user.isPresent() && user.get().getPassword().equals(loginUser.getPassword())) {
+            return ResponseEntity.ok(user.get());
+        }
+        return ResponseEntity.status(401).body("Invalid username or password");
     }
 }

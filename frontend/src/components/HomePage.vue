@@ -33,14 +33,15 @@
       };
     },
     methods: {
-      getMovies() {
-        MovieService.getMovies().then((response) => {
-          this.movies = response.data;
-        });
-      },
     },
     created() {
-      this.getMovies();
+      MovieService.getAllMovies()
+      .then(response => {
+        this.movies = response.data;
+      })
+      .catch(error => {
+        console.error('Failed to fetch movies:', error);
+      });
     },
   };
   </script>

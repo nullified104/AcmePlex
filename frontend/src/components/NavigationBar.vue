@@ -18,13 +18,23 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-2 mb-2 mb-lg-0" style="color:beige">
+          <!-- Movies link is always shown -->
           <li class="nav-item">
-            <!-- Router link for Movies -->
             <router-link to="/" class="nav-link active" exact>Movies</router-link>
           </li>
-          <li class="nav-item">
-            <!-- Router link for Account -->
+
+          <!-- Render Account link if user is logged in -->
+          <li class="nav-item" v-if="isLoggedIn">
             <router-link to="/account" class="nav-link active">Account</router-link>
+          </li>
+          
+          <!-- Logout button -->
+          <li class="nav-item" v-if="isLoggedIn">
+            <button class="nav-link active btn btn-link" @click="logout">Logout</button>
+          </li>
+          <!-- Login Button-->
+          <li class="nav-item" v-else>
+            <router-link to="/login" class="nav-link active btn btn-link">Login</router-link>
           </li>
         </ul>
         <form class="d-flex ms-auto" role="search">
@@ -39,17 +49,34 @@
       </div>
     </div>
   </nav>
-  </template>
-  
-  <script>
-  export default {
-    name: "NavigationBar",
-  };
-  </script>
-  
-  <style>
-  .navbar-nav .nav-item .nav-link.active {
-    color: #f0f0f0;
-  }
-  </style>
-  
+</template>
+
+<script>
+export default {
+  name: "NavigationBar",
+  data() {
+    return {
+      isLoggedIn: false, // Default state
+    };
+  },
+  created() {
+    const user = JSON.parse(localStorage.getItem('user')); // Check if user is logged in
+    if (user && user.guest !== true) {
+      this.isLoggedIn = true; // User is logged in
+    }
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('user'); // Remove user from localStorage
+      this.isLoggedIn = false; // Update the login state
+      this.$router.push({ name: 'LoginPage' }); // Redirect to login page
+    },
+  },
+};
+</script>
+
+<style>
+.navbar-nav .nav-item .nav-link.active {
+  color: #f0f0f0;
+}
+</style>
