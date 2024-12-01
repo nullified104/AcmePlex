@@ -1,19 +1,17 @@
 <template>
   <div class="main-container">
     <NavigationBar/>
-    <MovieDetails/>
+    <router-view />
   </div>
 </template>
 
 <script>
 import NavigationBar from './components/NavigationBar.vue';
-import MovieDetails from './components/MovieDetails.vue';
 
 export default {
   name: 'App',
   components: {
     NavigationBar,
-    MovieDetails,
   }
 }
 </script>

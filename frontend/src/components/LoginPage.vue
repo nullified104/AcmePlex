@@ -110,7 +110,7 @@
       },
       
       continueAsGuest() {
-        this.$router.push('/movie-selection');
+        this.$router.push('/');
       },
     },
   };
