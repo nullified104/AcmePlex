@@ -5,7 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
-public interface SeatRepository extends JpaRepository<Movie, Integer> {
+@Repository
+public interface SeatRepository extends JpaRepository<Seat, Integer> {
+    List<Seat> findByShowtimeId(Integer showtimeId);
+
     // Find seats by theater ID
     List<Seat> findByTheaterId(Integer theaterId);
 
