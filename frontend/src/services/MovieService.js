@@ -8,4 +8,8 @@ export default {
   getMovieById(id) {
     return apiClient.get(`/movies/${id}`); // Fetch details of a specific movie
   },
+
+  getShowtimesByMovieId(movieId) {
+    return apiClient.get(`/showtimes/${movieId}`); // Fetch showtimes for a movie
+  },
 };

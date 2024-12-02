@@ -1,5 +1,7 @@
 package com.acmeplex.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -27,13 +29,24 @@ public class Showtime {
     private Movie movie;
 
     @ManyToOne
+    @JsonBackReference
     private Theater theater;
 
     @OneToMany(mappedBy = "showtime")
+    @JsonManagedReference
     private List<Seat> seats;
 
-    public Showtime(LocalDateTime time) {
+    @OneToMany(mappedBy = "showtime")
+    @JsonManagedReference
+    private List<Ticket> tickets;
+
+    public Showtime() {
+    }
+
+    public Showtime(LocalDateTime time, Movie movie, Theater theater) {
         this.time = time;
+        this.movie = movie;
+        this.theater = theater;
     }
 
     public Integer getId() {
@@ -52,16 +65,8 @@ public class Showtime {
         return theater;
     }
 
-    public List<Seat> getSeats() {
-        return seats;
-    }
-
     public void setMovie(Movie movie) {
         this.movie = movie;
-    }
-
-    public void setSeats(List<Seat> seats) {
-        this.seats = seats;
     }
 
     public void setTheater(Theater theater) {

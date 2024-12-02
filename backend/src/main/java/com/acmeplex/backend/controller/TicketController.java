@@ -32,7 +32,7 @@ public class TicketController {
     }
 
     @PutMapping("/{id}/cancel")
-    public ResponseEntity<Ticket> cancelTicket(@PathVariable Integer id) {
+    public ResponseEntity<?> cancelTicket(@PathVariable Integer id) {
         return ticketRepository.findById(id).map(ticket -> {
             if (LocalDateTime.now().isBefore(ticket.getPurchaseDate().plusHours(72))) {
                 ticket.setCancelled(true);

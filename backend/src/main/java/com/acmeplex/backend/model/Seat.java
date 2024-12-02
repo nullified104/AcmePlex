@@ -1,5 +1,8 @@
 package com.acmeplex.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -29,13 +32,22 @@ public class Seat {
     private boolean reservedByRU;
 
     @ManyToOne
+    @JoinColumn(name = "showtime_id")
+    @JsonBackReference
     private Showtime showtime;
 
-    public Seat(int rowNumber, int seatNumber, boolean isAvailable, boolean reservedByRU) {
+    @OneToOne(mappedBy = "seat")
+    @JsonIgnore
+    private Ticket ticket;
+
+    public Seat() {}
+
+    public Seat(Integer rowNumber, Integer seatNumber, boolean isAvailable, boolean reservedByRU, Showtime showtime) {
         this.rowNumber = rowNumber;
         this.seatNumber = seatNumber;
         this.isAvailable = isAvailable;
         this.reservedByRU = reservedByRU;
+        this.showtime = showtime;
     }
 
     public int getRowNumber() {
@@ -54,6 +66,14 @@ public class Seat {
         return reservedByRU;
     }
 
+    public Showtime getShowtime() {
+        return showtime;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
     public void setRowNumber(int rowNumber) {
         this.rowNumber = rowNumber;
     }
@@ -69,4 +89,22 @@ public class Seat {
     public void setReservedByRU(boolean reservedByRU) {
         this.reservedByRU = reservedByRU;
     }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    public void setShowtime(Showtime showtime) {
+        this.showtime = showtime;
+    }
+
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
 }

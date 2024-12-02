@@ -31,10 +31,10 @@
                   class="btn seat-btn"
                   :class="{
                     'btn-success': seat.selected,
-                    'btn-danger': seat.reserved,
+                    'btn-danger': seat.is_available,
                     'btn-secondary': !seat.selected && !seat.reserved,
                   }"
-                  :disabled="seat.reserved"
+                  :disabled="seat.is_available"
                   @click="selectSeat(seat)"
                 >
                   {{ seat.id }}
@@ -63,6 +63,8 @@ export default {
   props: {
     isVisible: Boolean,
     seats: Array, // Pass seats data from parent component
+    movie: Object,
+    showtime: Object,
   },
   data() {
     return {
@@ -101,6 +103,8 @@ export default {
       this.$router.push({
         name: 'PaymentPage',
         query: {
+          movie: JSON.stringify(this.movie),
+          showtime: JSON.stringify(this.showtime),
           seats: JSON.stringify(this.selectedSeats),
         },
       });

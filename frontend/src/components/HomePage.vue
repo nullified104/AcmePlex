@@ -9,7 +9,8 @@
             :key="movie.id"
             :id="movie.id"
             :title="movie.title"
-            :image="movie.image"
+            :duration="movie.duration"
+            :genre="movie.genre"
           />
         </div>
       </div>

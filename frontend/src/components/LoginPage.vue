@@ -34,10 +34,6 @@
           <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
         <p><a href="#">Forgot Password?</a></p>
-
-        <div class="guest-section text-center">
-          <button @click="continueAsGuest" class="btn btn-secondary w-100">Continue as Guest</button>
-        </div>
       </div>
 
       <!-- Register Section -->
@@ -45,8 +41,8 @@
         <h3>Register</h3>
         <form @submit.prevent="onRegister">
           <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" class="form-control" v-model="registerData.name" required />
+            <label for="name">Username</label>
+            <input type="text" id="username" class="form-control" v-model="registerData.username" required />
           </div>
           <div class="form-group">
             <label for="email">Email</label>
@@ -65,8 +61,17 @@
             <input type="text" id="address" class="form-control" v-model="registerData.address" />
           </div>
           <div class="form-group">
-            <label for="card">Credit/Debit Card</label>
-            <input type="text" id="card" class="form-control" v-model="registerData.card" />
+            <label for="creditCard">Credit/Debit Card</label>
+            <input 
+              type="tel" 
+              id="creditCard" 
+              class="form-control" 
+              v-model="registerData.creditCard" 
+              @input="formatCardNumber" 
+              placeholder="XXXX XXXX XXXX XXXX"
+              maxlength="19" 
+              required
+            />
           </div>
           <button type="submit" class="btn btn-success w-100">Register</button>
         </form>
@@ -88,12 +93,12 @@ export default {
         password: '',
       },
       registerData: {
-        name: '',
+        username: '',
         email: '',
         password: '',
         confirmPassword: '',
         address: '',
-        card: '',
+        creditCard: '',
       },
     };
   },
@@ -146,13 +151,6 @@ export default {
         alert('Registration failed. Please try again.');
       }
     },
-    
-    continueAsGuest() {
-      // Set the user state as guest
-      localStorage.setItem('user', JSON.stringify({ guest: true }));
-      this.isLoggedIn = false;
-      this.$router.push('/'); // Redirect to home or movie page
-    }
   },
   created() {
   },
