@@ -37,26 +37,46 @@
             <router-link to="/login" class="nav-link active btn btn-link">Login</router-link>
           </li>
         </ul>
-        <form class="d-flex ms-auto" role="search">
+
+        <!-- Search Form -->
+        <form @submit.prevent="searchMovies" class="d-flex ms-auto" role="search">
           <input
+            v-model="searchQuery"
             class="form-control me-2"
             type="search"
-            placeholder="Search"
+            placeholder="Search for a movie"
             aria-label="Search"
           />
           <button class="btn btn-outline-light" type="submit">Search</button>
         </form>
       </div>
     </div>
+
+    <!-- Search Results (if any) -->
+    <div v-if="searchResults.length > 0" class="search-results">
+      <ul class="list-group">
+        <li
+          v-for="movie in searchResults"
+          :key="movie.id"
+          class="list-group-item"
+          @click="goToMovieDetails(movie.id)"
+        >
+          {{ movie.title }}
+        </li>
+      </ul>
+    </div>
   </nav>
 </template>
 
 <script>
+import MovieService from '@/services/MovieService';
 export default {
   name: "NavigationBar",
   data() {
     return {
       isLoggedIn: false, // Default state
+      searchQuery: '',   // The query text entered by the user
+      searchResults: [], // The search results to display
     };
   },
   created() {
@@ -71,6 +91,34 @@ export default {
       this.isLoggedIn = false; // Update the login state
       this.$router.push({ name: 'LoginPage' }); // Redirect to login page
     },
+
+    async searchMovies() {
+      if (this.searchQuery.trim() === '') {
+        this.searchResults = []; // Clear results if the search query is empty
+        return;
+      }
+      try {
+        // Make an API call to the backend to search for movies
+        const response = await MovieService.getMovieBySearch(this.searchQuery)
+        .then((response) => {
+          this.movie = response.data;
+        })
+        .catch((error) => {
+          console.error('Error fetching movie', error);
+        });
+
+        // Set the search results
+        this.searchResults = response.data;
+      } catch (error) {
+        console.error("Error searching movies:", error);
+        this.searchResults = [];
+      }
+    },
+
+    goToMovieDetails(movieId) {
+      // Navigate to the movie details page when a movie is clicked
+      this.$router.push({ name: 'MovieDetails', params: { id: movieId } });
+    },
   },
 };
 </script>
@@ -78,5 +126,25 @@ export default {
 <style>
 .navbar-nav .nav-item .nav-link.active {
   color: #f0f0f0;
+}
+
+.search-results {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.search-results .list-group-item {
+  cursor: pointer;
+}
+
+.search-results .list-group-item:hover {
+  background-color: #f0f0f0;
 }
 </style>

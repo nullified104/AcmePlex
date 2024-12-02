@@ -12,4 +12,8 @@ export default {
   getShowtimesByMovieId(movieId) {
     return apiClient.get(`/showtimes/${movieId}`); // Fetch showtimes for a movie
   },
+
+  getMovieBySearch(title) {
+    return apiClient.get(`/movies/search/${title}`);
+  }
 };

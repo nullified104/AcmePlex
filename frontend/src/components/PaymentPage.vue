@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import TicketService from '@/services/TicketService';
-import SeatService from '@/services/SeatService';
 
 export default {
   data() {
@@ -57,30 +55,9 @@ export default {
       // Redirect the user to the login page if not logged in
       this.$router.push({ name: 'LoginPage' });
     },
-    async processPayment() {
-      try {
-        // Loop through each selected seat and create a ticket
-        for (const seat of this.selectedSeats) {
-          const ticket = {
-            showtime_id: this.selectedShowtime.id, // Showtime ID
-            user_id: this.user.id, // User ID from localStorage
-            seat_id: seat.id, // Seat ID (from the seat object)
-            is_cancelled: 0, // The ticket is not canceled when purchasing
-            purchase_date: new Date().toISOString(), // Current date and time as the purchase date
-          };
-
-          // Call the ticket service to purchase the ticket for each seat
-          await TicketService.purchaseTicket(ticket);
-
-          // Mark the seat as reserved
-          await SeatService.reserveSeat(seat.id); 
-        }
-
+    processPayment() {
         alert('Tickets successfully purchased!');
         this.$router.push('/'); // Redirect to confirmation page
-      } catch (error) {
-        console.error("Error processing payment:", error);
-      }
     },
   },
 };

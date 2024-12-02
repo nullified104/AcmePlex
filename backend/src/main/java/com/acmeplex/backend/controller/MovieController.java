@@ -23,4 +23,9 @@ public class MovieController {
     public Movie getMovie(@PathVariable("id") Integer id) {
         return movieRepository.findById(id).orElse(null);
     }
+
+    @GetMapping("/search/{title}")
+    public List<Movie> searchMoviesByTitle(@PathVariable("title") String title) {
+        return movieRepository.findByTitleContainingIgnoreCase(title);
+    }
 }
