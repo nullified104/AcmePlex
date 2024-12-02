@@ -5,7 +5,7 @@ export default {
     return apiClient.get(`/seats/showtime/${showtimeId}`); // Fetch seats for a specific showtime
   },
 
-  reserveSeat(seatId, isReservedByRU) {
-    return apiClient.put(`/seats/${seatId}`, { reservedByRU: isReservedByRU }); // Reserve or unreserve a seat
+  reserveSeat(seatId) {
+    return apiClient.put(`/seats/${seatId}`, { is_available: 0 }); // Reserve or unreserve a seat
   },
 };

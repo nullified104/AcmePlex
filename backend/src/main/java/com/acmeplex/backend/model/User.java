@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -34,12 +34,12 @@ public class User {
 
     public User() {}
 
-    public User(String username, String password, String email, String address, String creditCard) {
+    public User(String username, String password, String email, String creditCard, String address) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.address = address;
         this.creditCard = creditCard;
+        this.address = address;
     }
 
     public Integer getId() {

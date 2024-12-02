@@ -8,19 +8,4 @@ import java.util.List;
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Integer> {
     List<Seat> findByShowtimeId(Integer showtimeId);
-
-    // Find seats by theater ID
-    List<Seat> findByTheaterId(Integer theaterId);
-
-    // Find available seats for a specific showtime
-    List<Seat> findByShowtimeIdAndIsAvailableTrue(Integer showtimeId);
-
-    // Find seats by row and column within a theater
-    List<Seat> findByTheaterIdAndRowAndColumn(Integer theaterId, String row, Integer column);
-
-    // Count the number of available seats for a specific showtime
-    long countByShowtimeIdAndIsAvailableTrue(Integer showtimeId);
-
-    // Find all seats that are reserved for a specific showtime
-    List<Seat> findByShowtimeIdAndIsAvailableFalse(Integer showtimeId);
 }

@@ -24,9 +24,9 @@ public class SeatController {
         return seatRepository.findAll();
     }
 
-    @GetMapping("/showtime/{showtimeId}")
-    public List<Seat> getSeatsByShowtime(@PathVariable Integer showtimeId) {
-        return seatRepository.findByShowtimeId(showtimeId);
+    @GetMapping("/showtime/{id}")
+    public List<Seat> getSeatsByShowtime(@PathVariable Integer id) {
+        return seatRepository.findByShowtimeId(id);
     }
 
     @PostMapping

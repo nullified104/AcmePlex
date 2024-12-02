@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/movies")
 @CrossOrigin("http://localhost:3000/")
 public class MovieController {
     @Autowired
     private MovieRepository movieRepository;
 
-    @GetMapping("/movies")
+    @GetMapping
     public List<Movie> getMovies() {
         return movieRepository.findAll();
     }

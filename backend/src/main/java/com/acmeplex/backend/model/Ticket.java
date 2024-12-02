@@ -1,5 +1,6 @@
 package com.acmeplex.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -29,17 +30,40 @@ public class Ticket {
     @ManyToOne
     private User user;
 
-    @OneToOne(mappedBy = "ticket")
+    @OneToOne
+    @JoinColumn(name = "seat_id")
     private Seat seat;
+
+    @ManyToOne
+    @JoinColumn(name = "showtime_id")
+    @JsonManagedReference
+    private Showtime showtime;
 
     public Ticket() {}
 
-    public Ticket(LocalDateTime purchaseDate, boolean isCancelled, LocalDateTime cancellationDate, User user, Seat seat) {
+    public Ticket(LocalDateTime purchaseDate, boolean isCancelled, LocalDateTime cancellationDate, User user, Showtime showtime, Seat seat) {
         this.purchaseDate = purchaseDate;
         this.isCancelled = isCancelled;
         this.cancellationDate = cancellationDate;
         this.user = user;
+        this.showtime = showtime;
         this.seat = seat;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Showtime getShowtime() {
+        return showtime;
+    }
+
+    public void setShowtime(Showtime showtime) {
+        this.showtime = showtime;
     }
 
     public LocalDateTime getPurchaseDate() {

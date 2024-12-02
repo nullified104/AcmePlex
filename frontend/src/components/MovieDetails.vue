@@ -14,25 +14,25 @@
         <p v-if="movie"><strong>Duration:</strong> {{ movie.duration }} minutes</p>
         <p v-if="movie"><strong>Description:</strong> {{ movie.description }}</p>
 
-        <!-- Theatre Selection Dropdown -->
+        <!-- theater Selection Dropdown -->
         <div class="form-group" v-if="movie">
-          <label for="theatreSelect">Select Theatre</label>
-          <select id="theatreSelect" v-model="selectedTheatre" class="form-control">
-            <option v-for="(theatre, index) in theatres" :key="index" :value="theatre.id">
-              {{ theatre.name }}
+          <label for="theaterSelect">Select theater</label>
+          <select id="theaterSelect" v-model="selectedtheater" class="form-control">
+            <option v-for="(theater, index) in theaters" :key="index" :value="theater.id">
+              {{ theater.name }}
             </option>
           </select>
         </div>
 
-        <!-- Showtimes Table for selected theatre -->
+        <!-- Showtimes Table for selected theater -->
         <div class="showtimes mt-4" v-if="filteredShowtimes.length > 0">
-          <h5>Showtimes for {{ selectedTheatreName }}</h5>
+          <h5>Showtimes for {{ selectedtheaterName }}</h5>
           <Showtimes :showtimes="filteredShowtimes" @open-seating-map="openSeatingMap" />
         </div>
 
         <!-- No showtimes available message -->
         <div v-else-if="movie">
-          <p>No showtimes available for the selected theatre.</p>
+          <p>No showtimes available for the selected theater.</p>
         </div>
       </div>
     </div>
@@ -41,6 +41,8 @@
     <SeatingPlanModal
       :isVisible="isSeatingModalVisible"
       :seats="seats"
+      :movie="this.movie"
+      :showtime="this.selectedShowtime"
       @close="closeSeatingModal"
       @proceed="proceedToPayment"
     />
@@ -50,6 +52,9 @@
 <script>
 import Showtimes from './ShowTimes.vue';
 import SeatingPlanModal from './SeatingPlanModal.vue';
+import MovieService from '@/services/MovieService';
+import TheaterService from '@/services/TheaterService';
+import SeatService from '@/services/SeatService';
 
 export default {
   components: {
@@ -60,87 +65,78 @@ export default {
   data() {
     return {
       movie: null, // Movie details object
-      // List of available theatres
-      theatres: [
-        { id: 1, name: 'Theatre A' },
-        { id: 2, name: 'Theatre B' },
+      // List of available theaters
+      theaters: [
       ],
-      selectedTheatre: 1, // Default selected theatre ID
-      filteredShowtimes: [], // Store filtered showtimes based on selected theatre
+      selectedtheater: 1, // Default selected theater ID
+      filteredShowtimes: [], // Store filtered showtimes based on selected theater
       seats: [
-        { id: 'A1', reserved: false, selected: false },
-        // Add more seats as needed...
       ],
       isSeatingModalVisible: false,
       selectedShowtime: null,
     };
   },
   computed: {
-    selectedTheatreName() {
-      const selectedTheatre = this.theatres.find((theatre) => theatre.id === this.selectedTheatre);
-      return selectedTheatre ? selectedTheatre.name : '';
+    selectedtheaterName() {
+      const selectedtheater = this.theaters.find((theater) => theater.id === this.selectedtheater);
+      return selectedtheater ? selectedtheater.name : '';
     },
   },
   watch: {
-    id: 'fetchMovieDetails',
+    selectedtheater(newTheaterId) {
+      this.fetchFilteredShowtimes(newTheaterId);
+    },
+    id: 'fetchMovieDetails', // Fetch movie details when movie ID changes
   },
   methods: {
-    fetchMovieDetails() {
-      // Simulated movie data based on ID
-      const mockMovies = [
-        {
-          id: '1',
-          title: 'Example Movie 1',
-          genre: 'Action',
-          duration: 120,
-          description: 'A thrilling action movie.',
-        },
-        {
-          id: '2',
-          title: 'Example Movie 2',
-          genre: 'Comedy',
-          duration: 90,
-          description: 'A hilarious comedy movie.',
-        },
-      ];
-
-      // Find movie by ID
-      this.movie = mockMovies.find((movie) => movie.id === this.id);
-
-      // If movie exists, update showtimes
-      if (this.movie) {
-        this.filteredShowtimes = this.getShowtimesForTheatre(this.selectedTheatre);
-      } else {
-        console.error('Movie not found');
+    async fetchSeats(showtimeId) {
+      await SeatService.getSeatsByShowtime(showtimeId)
+        .then((response) => {
+          this.seats = response.data;
+        })
+        .catch((error) => {
+          console.error('Error fetching seats:', error);
+        });
+    },
+    async fetchTheaters() {
+      await TheaterService.getTheaters()
+        .then((response) => {
+          this.theaters = response.data;
+          // Fetch the filtered showtimes for the currently selected theater
+          this.fetchFilteredShowtimes(this.selectedtheater);
+        })
+        .catch((error) => {
+          console.error('Error fetching theaters', error);
+        });
+    },
+    fetchFilteredShowtimes(theaterId) {
+      const selectedTheater = this.theaters.find((theater) => theater.id === theaterId);
+      if (selectedTheater) {
+        // Filter the showtimes for the selected movie ID
+        this.filteredShowtimes = selectedTheater.showtimes.filter(showtime => showtime.movie.id == this.id);
+        // Format the showtimes' time in 12-hour format
+        this.filteredShowtimes = this.filteredShowtimes.map(showtime => {
+          const date = new Date(showtime.time);
+          const hours = date.getHours();
+          const minutes = date.getMinutes();
+          showtime.time = `${hours % 12 || 12}:${minutes < 10 ? '0' + minutes : minutes} ${hours >= 12 ? 'PM' : 'AM'}`;
+          return showtime;
+        });
       }
     },
-    // Get showtimes for a selected theatre
-    getShowtimesForTheatre(theatreId) {
-      const showtimes = [
-        {
-          theatreId: 1,
-          theatreName: 'Theatre A',
-          showtimes: [
-            { id: 1, time: '10:00 AM', availableSeats: 10 },
-            { id: 2, time: '01:00 PM', availableSeats: 5 },
-          ],
-        },
-        {
-          theatreId: 2,
-          theatreName: 'Theatre B',
-          showtimes: [
-            { id: 3, time: '11:00 AM', availableSeats: 8 },
-            { id: 4, time: '02:00 PM', availableSeats: 12 },
-          ],
-        },
-      ];
-
-      const selectedTheatre = showtimes.find((theatre) => theatre.theatreId === theatreId);
-      return selectedTheatre ? selectedTheatre.showtimes : [];
+    async fetchMovieDetails() {
+      await MovieService.getMovieById(this.id)
+        .then((response) => {
+          this.movie = response.data;
+        })
+        .catch((error) => {
+          console.error('Error fetching movie', error);
+        });
     },
     openSeatingMap(showtime) {
       this.selectedShowtime = showtime;
       this.isSeatingModalVisible = true;
+      this.fetchSeats(showtime.id);
     },
     closeSeatingModal() {
       this.isSeatingModalVisible = false;
@@ -158,6 +154,7 @@ export default {
   created() {
     // Fetch movie details when the component is created
     this.fetchMovieDetails();
+    this.fetchTheaters();
   },
 };
 </script>

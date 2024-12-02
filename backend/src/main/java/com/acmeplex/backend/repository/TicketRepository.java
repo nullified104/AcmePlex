@@ -15,9 +15,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     // Find tickets for a specific showtime
     List<Ticket> findByShowtimeId(Integer showtimeId);
 
-    // Find tickets for a specific theater
-    List<Ticket> findByTheaterId(Integer theaterId);
-
     // Find all tickets purchased within a specific date range
     List<Ticket> findByPurchaseDateBetween(LocalDateTime start, LocalDateTime end);
 

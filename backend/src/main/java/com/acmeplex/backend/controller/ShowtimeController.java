@@ -52,4 +52,13 @@ public class ShowtimeController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/movie/{movieId}")
+    public ResponseEntity<List<Showtime>> getShowtimesByMovieId(@PathVariable Integer movieId) {
+        List<Showtime> showtimes = showtimeRepository.findByMovieId(movieId);
+        if (showtimes.isEmpty()) {
+            return ResponseEntity.notFound().build();  // Return 404 if no showtimes found for movie
+        }
+        return ResponseEntity.ok(showtimes);
+    }
 }
