@@ -4,7 +4,7 @@
 
     <div v-if="user" class="personal-info">
       <h3>Personal Information</h3>
-      <p><strong>Name:</strong> {{ user.name }}</p>
+      <p><strong>Username:</strong> {{ user.username }}</p>
       <p><strong>Email:</strong> {{ user.email }}</p>
       <p><strong>Address:</strong> {{ user.address }}</p>
       <p><strong>Credit/Debit Card:</strong> {{ user.card }}</p>
