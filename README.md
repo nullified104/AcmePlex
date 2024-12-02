@@ -32,11 +32,11 @@ Make sure MySQL is installed and running. You need to create a database and conf
     CREATE DATABASE acmeplex_db;
     ```
 
-2. Import the database schema and sample data from the `10.sql` file:
-    - Locate the `10.sql` file in the project directory.
+2. Import the database schema and sample data from the `Group10.sql` file:
+    - Locate the `Group10.sql` file in the project directory.
     - Run the following command in your terminal (replace placeholders as needed):
       ```bash
-      mysql -u root -p acmeplex_db < path_to_project/10.sql
+      mysql -u root -p acmeplex_db < path_to_project/Group10.sql
       ```
     - Alternatively, use a MySQL client like MySQL Workbench to import the file.
 
